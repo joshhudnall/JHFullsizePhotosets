@@ -44,7 +44,7 @@ function adjustIFrames() {
 }
 
 function adjustIFrame(iframe) {
-  var layout = $.parseJSON($(iframe).closest('li').attr('rel'));
+  var layout = $.parseJSON($(iframe).parent().attr('rel'));
   var gutter = 10;
   
   $(iframe).contents().find('.photoset_row').width("100%");
