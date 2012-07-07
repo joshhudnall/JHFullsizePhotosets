@@ -7,9 +7,43 @@ $(document).ready(function() {
     $(this).width("100%").children('iframe').width("100%");
   });
 
-  watchIFrames();
+  adjustIFrames();
 });
-function iFrameAction(iframe) {
+
+function adjustIFrames() {   
+  var iFrames = $('.html_photoset iframe');
+
+  function loopIFrames() {
+    // Iterate through all iframes in the page.
+    for (var i = 0, j = iFrames.length; i < j; i++) {
+      var iFrame = $(iFrames[i]);
+      adjustIFrame(iFrame);
+    }
+  }
+
+  // Check if browser is Safari or Opera.
+  if ($.browser.safari || $.browser.opera) {
+    // Start timer when loaded.
+    $('.html_photoset iframe').load(function() {
+      setTimeout(loopIFrames, 0);
+    });
+
+    // Safari and Opera need something to force a load.
+    for (var i = 0, j = iFrames.length; i < j; i++) {
+      var iFrame = $(iFrames[i]);
+      var iSource = iFrame.attr('src');
+      iFrame.attr('src', '');
+      iFrame.attr('src', iSource);
+    }
+  } else {
+    // For other good browsers.
+    $('.html_photoset iframe').load(function() {
+      adjustIFrame(this);
+    });
+  }
+}
+
+function adjustIFrame(iframe) {
   var layout = $.parseJSON($(iframe).closest('li').attr('rel'));
   var gutter = 10;
   
@@ -34,39 +68,6 @@ function iFrameAction(iframe) {
     var $curImage = $($images[j]);
     var newSrc = $curImage.parent('a').attr('href');
     if (newSrc != undefined && newSrc != '') $curImage.attr('src', newSrc);
-  }
-}
-function watchIFrames() {   
-  var iFrames = $('.html_photoset iframe');
-
-  // what ever action you want.
-  function iAction() {
-    // Iterate through all iframes in the page.
-    for (var i = 0, j = iFrames.length; i < j; i++) {
-      var iFrame = $(iFrames[i]);
-      iFrameAction(iFrame);
-    }
-  }
-
-  // Check if browser is Safari or Opera.
-  if ($.browser.safari || $.browser.opera) {
-    // Start timer when loaded.
-    $('.html_photoset iframe').load(function() {
-      setTimeout(iAction, 0);
-    });
-
-    // Safari and Opera need something to force a load.
-    for (var i = 0, j = iFrames.length; i < j; i++) {
-      var iFrame = $(iFrames[i]);
-       var iSource = iFrame.attr('src');
-       iFrame.attr('src', '');
-       iFrame.attr('src', iSource);
-    }
-  } else {
-    // For other good browsers.
-    $('.html_photoset iframe').load(function() {
-      iFrameAction(this);
-    });
   }
 }
 
