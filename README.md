@@ -1,3 +1,5 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 Not Supported
 -------------
 This is a very old script and I'm not even sure if it works anymore. Your mileage may vary. As such, I cannot provide support for its use. You're on your own.
